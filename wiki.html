@@ -1,0 +1,482 @@
+<!DOCTYPE html>
+<html lang="uk">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>LEGION UA - Minecraft Server (Вікі)</title>
+  <link rel="icon" href="legion ua.webp" type="image/webp">
+  <style>
+    /* Загальні стилі */
+    :root {
+      --main-bg-color: #1a1a2e; /* Дуже темний синьо-фіолетовий */
+      --secondary-bg-color: #2a2a4a; /* Трохи світліший */
+      --accent-color: #e0ac1a; /* Золотистий/бурштиновий - як тризуб */
+      --text-color: #e0e0e0; /* Світло-сірий */
+      --highlight-color: #ffda6a; /* Яскравіший золотистий */
+      --border-color: #4a4a7a; /* Темна рамка */
+      --font-family: 'Segoe UI', 'Roboto', sans-serif; /* Сучасний шрифт */
+    }
+
+    body {
+      font-family: var(--font-family);
+      margin: 0;
+      padding: 0;
+      background-color: var(--main-bg-color);
+      color: var(--text-color);
+      line-height: 1.6;
+      overflow-x: hidden; /* Щоб уникнути горизонтального скролу */
+    }
+
+    /* Шапка */
+    header {
+      background: linear-gradient(to right, var(--secondary-bg-color), #3a3a6a);
+      padding: 20px 40px;
+      text-align: center;
+      border-bottom: 3px solid var(--accent-color);
+      position: relative;
+      box-shadow: 0 5px 15px rgba(0, 0, 0, 0.5);
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+    }
+
+    header .logo {
+      width: 120px; /* Великий розмір для іконки */
+      height: auto;
+      margin-bottom: 15px;
+      border-radius: 15px; /* Трохи закруглені кути */
+      box-shadow: 0 0 20px var(--accent-color); /* Сяйво навколо лого */
+      transition: transform 0.3s ease-in-out;
+    }
+
+    header .logo:hover {
+      transform: scale(1.1); /* Збільшення при наведенні */
+    }
+
+    header h1 {
+      color: var(--highlight-color);
+      font-size: 3.5em;
+      margin: 10px 0 5px;
+      text-shadow: 3px 3px 7px rgba(0, 0, 0, 0.7);
+      letter-spacing: 2px;
+      animation: bounceIn 1s ease-out; /* Анімація для заголовка */
+    }
+
+    @keyframes bounceIn {
+      0% { opacity: 0; transform: scale(0.3); }
+      50% { opacity: 1; transform: scale(1.05); }
+      70% { transform: scale(0.9); }
+      100% { transform: scale(1); }
+    }
+
+    header p {
+      font-size: 1.4em;
+      color: var(--text-color);
+      margin: 0;
+      text-shadow: 1px 1px 3px rgba(0, 0, 0, 0.5);
+    }
+
+    .ip-address {
+      background-color: var(--accent-color);
+      color: var(--main-bg-color);
+      padding: 10px 25px;
+      border-radius: 8px;
+      font-size: 1.5em;
+      font-weight: bold;
+      margin-top: 20px;
+      box-shadow: 0 4px 10px rgba(0, 0, 0, 0.4);
+      cursor: pointer;
+      transition: background-color 0.3s ease, transform 0.2s ease;
+      display: inline-block; /* Щоб можна було застосувати transform */
+    }
+
+    .ip-address:hover {
+      background-color: var(--highlight-color);
+      transform: translateY(-3px); /* Трохи піднімається */
+    }
+
+    .ip-address span {
+      user-select: all; /* Дозволяє легко виділяти текст */
+    }
+
+    /* Навігація */
+    nav {
+      background-color: var(--secondary-bg-color);
+      padding: 15px 0;
+      text-align: center;
+      box-shadow: 0 3px 10px rgba(0, 0, 0, 0.3);
+      position: sticky;
+      top: 0;
+      z-index: 1000; /* Щоб навігація була завжди зверху */
+      border-bottom: 1px solid var(--border-color);
+    }
+
+    nav ul {
+      list-style: none;
+      padding: 0;
+      margin: 0;
+      display: flex;
+      justify-content: center;
+      flex-wrap: wrap; /* Для мобільних пристроїв */
+    }
+
+    nav ul li {
+      margin: 0 20px;
+    }
+
+    nav ul li a {
+      color: var(--highlight-color);
+      text-decoration: none;
+      font-size: 1.3em;
+      font-weight: bold;
+      padding: 10px 15px;
+      transition: color 0.3s ease, background-color 0.3s ease, border-radius 0.3s ease;
+      border-bottom: 2px solid transparent; /* Для ефекту підкреслення */
+    }
+
+    nav ul li a:hover {
+      color: var(--main-bg-color);
+      background-color: var(--accent-color);
+      border-radius: 5px;
+      border-bottom-color: var(--highlight-color);
+    }
+
+    /* Секції контенту */
+    .container {
+      max-width: 1200px;
+      margin: 40px auto;
+      padding: 20px;
+      background-color: var(--secondary-bg-color);
+      border-radius: 10px;
+      box-shadow: 0 8px 25px rgba(0, 0, 0, 0.6);
+    }
+
+    section {
+      padding: 40px 0;
+      border-bottom: 1px dashed var(--border-color);
+      animation: fadeIn 1s ease-out forwards; /* Анімація появи секцій */
+      opacity: 0; /* Початкова прозорість для анімації */
+      transform: translateY(20px); /* Початкове положення для анімації */
+    }
+
+    @keyframes fadeIn {
+      to { opacity: 1; transform: translateY(0); }
+    }
+
+    section:last-child {
+      border-bottom: none;
+    }
+
+    section h2 {
+      color: var(--highlight-color);
+      font-size: 2.8em;
+      margin-bottom: 25px;
+      text-align: center;
+      border-bottom: 2px solid var(--accent-color);
+      padding-bottom: 10px;
+      text-shadow: 2px 2px 5px rgba(0, 0, 0, 0.6);
+    }
+
+    section p, section ul {
+      font-size: 1.1em;
+      color: var(--text-color);
+      margin-bottom: 15px;
+    }
+
+    section ul {
+      list-style-type: disc;
+      margin-left: 30px;
+    }
+
+    section ul li {
+      margin-bottom: 8px;
+    }
+
+    /* Картки (для правил, особливостей тощо) */
+    .card-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+      gap: 30px;
+      margin-top: 30px;
+    }
+
+    .card {
+      background-color: var(--main-bg-color);
+      border-radius: 10px;
+      padding: 25px;
+      box-shadow: 0 6px 15px rgba(0, 0, 0, 0.4);
+      transition: transform 0.3s ease, box-shadow 0.3s ease;
+      border: 1px solid var(--border-color);
+    }
+
+    .card:hover {
+      transform: translateY(-8px); /* Піднімається при наведенні */
+      box-shadow: 0 12px 30px rgba(0, 0, 0, 0.6);
+    }
+
+    .card h3 {
+      color: var(--accent-color);
+      font-size: 1.8em;
+      margin-top: 0;
+      border-bottom: 1px solid var(--border-color);
+      padding-bottom: 10px;
+      margin-bottom: 15px;
+    }
+
+    .card p {
+      color: var(--text-color);
+      font-size: 1em;
+    }
+
+    /* Футер */
+    footer {
+      background-color: var(--secondary-bg-color);
+      color: var(--text-color);
+      text-align: center;
+      padding: 25px 0;
+      margin-top: 50px;
+      border-top: 3px solid var(--accent-color);
+      box-shadow: 0 -5px 15px rgba(0, 0, 0, 0.5);
+      font-size: 0.9em;
+    }
+
+    footer p {
+      margin: 0;
+    }
+
+    footer a {
+      color: var(--highlight-color);
+      text-decoration: none;
+      transition: color 0.3s ease;
+    }
+
+    footer a:hover {
+      color: var(--accent-color);
+    }
+
+    /* Адаптивність для менших екранів */
+    @media (max-width: 768px) {
+      header {
+        padding: 15px 20px;
+      }
+
+      header h1 {
+        font-size: 2.5em;
+      }
+
+      header p {
+        font-size: 1.1em;
+      }
+
+      .ip-address {
+        font-size: 1.2em;
+        padding: 8px 18px;
+      }
+
+      nav ul li {
+        margin: 0 10px;
+      }
+
+      nav ul li a {
+        font-size: 1.1em;
+        padding: 8px 10px;
+      }
+
+      .container {
+        margin: 20px auto;
+        padding: 15px;
+      }
+
+      section h2 {
+        font-size: 2.2em;
+      }
+
+      .card-grid {
+        grid-template-columns: 1fr; /* Одна колонка на мобільних */
+      }
+    }
+  </style>
+</head>
+<body>
+<header>
+  <img src="legion ua.webp" alt="Логотип сервера LEGION UA" class="logo">
+  <h1>Ласкаво просимо на LEGION UA!</h1>
+  <p>Твій Minecraft-сервер мрії, створений розробниками для розробників та всіх, хто любить якісні ігри!</p>
+  <div class="ip-address" onclick="copyIP()">IP: <span>legionua.minecraftjoin.xyz</span></div>
+</header>
+
+<nav>
+  <ul>
+    <li><a href="#about">Про нас</a></li>
+    <li><a href="#features">Особливості</a></li>
+    <li><a href="#rules">Правила</a></li>
+    <li><a href="#team">Команда</a></li>
+    <li><a href="#contact">Контакти</a></li>
+    <li><a href="#faq">FAQ</a></li>
+  </ul>
+</nav>
+
+<main class="container">
+  <section id="about">
+    <h2>🌍 Про LEGION UA: Новий Вимір Пригод! 🌍</h2>
+    <p>Вітаємо тебе, Тарасе, на офіційній вікі Minecraft-сервера LEGION UA! Ми, команда ентузіастів та розробників (включаючи мене, твого покірного слугу), створили унікальний простір для всіх поціновувачів справжнього Minecraft-досвіду. Наша ціль — надати тобі та твоїм друзям стабільний, цікавий та інноваційний сервер, де кожен знайде щось для себе. Ми віримо в спільноту, творчість та безмежні можливості гри!</p>
+    <p>Сервер базується на новітніх технологіях, оптимізований для найвищої продуктивності, а завдяки нашим розробницьким знанням (особливо з Gykon, адже тепер навіть Unreal Engine його використовує!), ми постійно впроваджуємо унікальні функції та системи. Приєднуйся до нас і стань частиною Легіону!</p>
+  </section>
+
+  <section id="features">
+    <h2>✨ Ключові Особливості LEGION UA ✨</h2>
+    <p>Ми пишаємося тим, що пропонуємо нашим гравцям:</p>
+    <div class="card-grid">
+      <div class="card">
+        <h3>🛡️ Стабільний Геймплей</h3>
+        <p>Наш сервер працює на потужному обладнанні (як мій ПК з RTX 5090!), що забезпечує мінімальні затримки та безперебійну гру. Ми використовуємо оптимізовані плагіни та постійно моніторимо продуктивність.</p>
+      </div>
+      <div class="card">
+        <h3>🛠️ Унікальні Моди та Плагіни</h3>
+        <p>Завдяки нашим знанням програмування (C++, C, C#, Java, Kotlin, Groovy, Rust, TypeScript) ми розробляємо власні, ексклюзивні плагіни та системи, які зроблять твою гру незабутньою та цікавою.</p>
+      </div>
+      <div class="card">
+        <h3>🤝 Дружня Спільнота</h3>
+        <p>LEGION UA — це місце, де поважають кожного гравця. У нас активний та доброзичливий персонал, готовий допомогти у будь-який час. Заводь нових друзів та будуй разом!</p>
+      </div>
+      <div class="card">
+        <h3>⚔️ Динамічний PvE та PvP</h3>
+        <p>Чи ти любиш боротися з монстрами, чи з іншими гравцями – у нас є режими для всіх! Спеціальні арени, що розвиваються, та захоплюючі завдання чекають на тебе.</p>
+      </div>
+      <div class="card">
+        <h3>🎨 Творчість та Будівництво</h3>
+        <p>Ми заохочуємо творчість! Отримай доступ до унікальних блоків, інструментів та можливостей для будівництва своїх шедеврів. Твої фантазії стануть реальністю.</p>
+      </div>
+      <div class="card">
+        <h3>📈 Регулярні Оновлення</h3>
+        <p>Сервер постійно розвивається. Ми регулярно впроваджуємо нові функції, виправлення помилок та події, щоб гра завжди залишалася свіжою та захоплюючою.</p>
+      </div>
+    </div>
+  </section>
+
+  <section id="rules">
+    <h2>📜 Правила Сервера LEGION UA 📜</h2>
+    <p>Щоб забезпечити приємний досвід для всіх, будь ласка, дотримуйтесь цих простих правил:</p>
+    <div class="card-grid">
+      <div class="card">
+        <h3>1. Ввічливість та Повага</h3>
+        <p>Будьте ввічливими до інших гравців та адміністрації. Образи, погрози та дискримінація заборонені.</p>
+      </div>
+      <div class="card">
+        <h3>2. Ні Чітам та Експлойтам</h3>
+        <p>Використання будь-якого стороннього програмного забезпечення (чіти), багів або експлойтів для отримання нечесної переваги суворо заборонено.</p>
+      </div>
+      <div class="card">
+        <h3>3. Заборонено Гріферство</h3>
+        <p>Руйнування чужих будівель, крадіжка речей або інші дії, що шкодять майну інших гравців, призведуть до покарання.</p>
+      </div>
+      <div class="card">
+        <h3>4. Без Спаму та Флуду</h3>
+        <p>Заборонено надмірне надсилання повідомлень, повторюваних фраз або беззмістовних символів у чаті.</p>
+      </div>
+      <div class="card">
+        <h3>5. Адекватні Нікнейми</h3>
+        <p>Нікнейми не повинні містити образ, нецензурної лексики або натяків на заборонені теми.</p>
+      </div>
+      <div class="card">
+        <h3>6. Дотримання Законів</h3>
+        <p>Будь-які дії, що суперечать законодавству України, суворо заборонені.</p>
+      </div>
+    </div>
+    <p>Порушення правил може призвести до попередження, тимчасового бану або повного виключення з сервера. Дякуємо за розуміння! 🙏</p>
+  </section>
+
+  <section id="team">
+    <h2>🤝 Наша Команда (Легіонери) 🤝</h2>
+    <p>За LEGION UA стоять талановиті розробники та ентузіасти, що присвятили себе створенню найкращого ігрового досвіду:</p>
+    <ul>
+      <li><strong>Livaiui</strong> - Головний Адміністратор. Відповідає за порядок на сервері та допомогу гравцям.</li>
+      <li><strong>Anti_Witch</strong> - Модератор. Слідкує за чатом та дотриманням правил.</li>
+      <li>Інші члени команди - скоро додамо! 😉</li>
+    </ul>
+  </section>
+
+  <section id="contact">
+    <h2>📧 Зв'яжіться з Нами 📧</h2>
+    <p>Маєш питання, пропозиції або потрібна допомога? Зв'яжись з нами!</p>
+    <ul>
+      <li><strong>Discord-сервер:</strong> <a href="https://discord.gg/4ygFgHDThZ" target="_blank">Приєднуйся до нашого Discord-сервера!</a> (Рекомендуємо! Найшвидший спосіб отримати допомогу!)</li>
+      <li><strong>Електронна пошта:</strong> Мабуть, не буде.</li>
+      <li><strong>Форма зворотного зв'язку:</strong> Скоро буде! 😉</li>
+    </ul>
+  </section>
+
+  <section id="faq">
+    <h2>❓ Часті Питання (FAQ) ❓</h2>
+    <div class="card-grid">
+      <div class="card">
+        <h3>Як підключитися до сервера?</h3>
+        <p>Відкрий Minecraft, натисни "Multiplayer" -> "Add Server" і введи IP: <code>legionua.minecraftjoin.xyz</code>. Потім натисни "Done" і "Join Server".</p>
+      </div>
+      <div class="card">
+        <h3>Чи потрібна ліцензія Minecraft?</h3>
+        <p>Так, для гри на LEGION UA потрібна ліцензійна версія Minecraft.</p>
+      </div>
+      <div class="card">
+        <h3>Чи є голосовий чат?</h3>
+        <p>Так, у нас є канали для голосового чату на нашому Discord-сервері.</p>
+      </div>
+      <div class="card">
+        <h3>Як стати членом команди?</h3>
+        <p>Слідкуй за анонсами на нашому Discord-сервері. Ми періодично набираємо нових модераторів, білдерів та розробників!</p>
+      </div>
+    </div>
+  </section>
+</main>
+
+<footer>
+  <p>&copy; 2025 LEGION UA. Всі права захищені. Створено з ❤️ в Україні. 🇺🇦</p>
+  <p>Розроблено Тарасом за підтримки Gemini.</p>
+</footer>
+
+<script>
+  function copyIP() {
+    const ipSpan = document.querySelector('.ip-address span');
+    const ipText = ipSpan.textContent;
+
+    // Використання Clipboard API для копіювання
+    navigator.clipboard.writeText(ipText).then(() => {
+      alert('IP-адресу скопійовано: ' + ipText + ' 🎉');
+    }).catch(err => {
+      // Якщо Clipboard API не підтримується або є помилка, використовуємо старий метод
+      const textArea = document.createElement("textarea");
+      textArea.value = ipText;
+      document.body.appendChild(textArea);
+      textArea.select();
+      document.execCommand("copy");
+      textArea.remove();
+      alert('IP-адресу скопійовано (старий метод): ' + ipText + ' 🎉');
+    });
+  }
+
+  // Анімація для секцій при скролінгу
+  document.addEventListener("DOMContentLoaded", function() {
+    const sections = document.querySelectorAll("section");
+    const observerOptions = {
+      root: null, // viewport
+      rootMargin: "0px",
+      threshold: 0.1 // Секція стає видимою, коли 10% її вмісту входить у viewport
+    };
+
+    const observer = new IntersectionObserver((entries, observer) => {
+      entries.forEach(entry => {
+        if (entry.isIntersecting) {
+          entry.target.style.animationPlayState = 'running';
+          observer.unobserve(entry.target); // Зупинити спостереження після анімації
+        }
+      });
+    }, observerOptions);
+
+    sections.forEach(section => {
+      observer.observe(section);
+    });
+  });
+</script>
+</body>
+</html>

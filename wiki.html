@@ -229,6 +229,115 @@
       font-size: 1em;
     }
 
+    /* Styles for auth emulation section */
+    #auth-emulation input[type="text"],
+    #auth-emulation input[type="password"] {
+      width: calc(100% - 20px);
+      padding: 10px;
+      margin-bottom: 15px;
+      border: 1px solid var(--border-color);
+      border-radius: 5px;
+      background-color: var(--main-bg-color);
+      color: var(--text-color);
+      font-size: 1em;
+    }
+
+    #auth-emulation button {
+      background-color: var(--accent-color);
+      color: var(--main-bg-color);
+      padding: 10px 20px;
+      border: none;
+      border-radius: 5px;
+      cursor: pointer;
+      font-size: 1.1em;
+      font-weight: bold;
+      transition: background-color 0.3s ease;
+      margin-right: 10px;
+    }
+
+    #auth-emulation button:hover {
+      background-color: var(--highlight-color);
+    }
+
+    #auth-emulation p {
+      margin-top: 15px;
+      font-weight: bold;
+    }
+
+    #regMessage.success, #loginMessage.success {
+      color: #4CAF50; /* Зелений */
+    }
+
+    #regMessage.error, #loginMessage.error {
+      color: #f44336; /* Червоний */
+    }
+
+    /* Styles for announcements */
+    .announcement-post {
+      background-color: var(--main-bg-color);
+      border-radius: 10px;
+      padding: 20px;
+      margin-bottom: 25px;
+      box-shadow: 0 4px 10px rgba(0, 0, 0, 0.3);
+      border: 1px solid var(--border-color);
+    }
+
+    .announcement-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 10px;
+      border-bottom: 1px solid var(--border-color);
+      padding-bottom: 10px;
+    }
+
+    .announcement-header .author {
+      font-weight: bold;
+      color: var(--accent-color);
+      font-size: 1.1em;
+    }
+
+    .announcement-header .date {
+      font-size: 0.9em;
+      color: var(--text-color);
+    }
+
+    .announcement-content {
+      margin-top: 15px;
+    }
+
+    .announcement-content p {
+      margin-bottom: 10px;
+    }
+
+    .announcement-content a {
+      color: var(--highlight-color);
+      text-decoration: none;
+    }
+
+    .announcement-content a:hover {
+      text-decoration: underline;
+    }
+
+    .poll-result {
+      background-color: #2a2a4a;
+      padding: 10px;
+      border-radius: 5px;
+      margin-top: 15px;
+      font-style: italic;
+      border-left: 3px solid var(--accent-color);
+    }
+
+    .spoiler-box {
+      background-color: #3a3a6a;
+      border: 1px dashed var(--highlight-color);
+      padding: 15px;
+      margin-top: 15px;
+      border-radius: 8px;
+      color: var(--text-color);
+      font-style: italic;
+    }
+
     /* Футер */
     footer {
       background-color: var(--secondary-bg-color);
@@ -303,7 +412,7 @@
   <img src="legion ua.webp" alt="Логотип сервера LEGION UA" class="logo">
   <h1>Ласкаво просимо на LEGION UA!</h1>
   <p>Твій Minecraft-сервер мрії, створений розробниками для розробників та всіх, хто любить якісні ігри!</p>
-  <div class="ip-address" onclick="copyIP()">IP: <span>legionua.minecraftjoin.xyz</span></div>
+  <div class="ip-address" role="button" tabindex="0" onclick="copyIP()" onkeypress="handleIPKeyPress(event)">IP: <span>legionua.minecraftjoin.xyz</span></div>
 </header>
 
 <nav>
@@ -314,6 +423,7 @@
     <li><a href="#team">Команда</a></li>
     <li><a href="#contact">Контакти</a></li>
     <li><a href="#faq">FAQ</a></li>
+    <li><a href="#announcements">Оголошення</a></li>
   </ul>
 </nav>
 
@@ -391,8 +501,10 @@
     <h2>🤝 Наша Команда (Легіонери) 🤝</h2>
     <p>За LEGION UA стоять талановиті розробники та ентузіасти, що присвятили себе створенню найкращого ігрового досвіду:</p>
     <ul>
-      <li><strong>Livaiui</strong> - Головний Адміністратор. Відповідає за порядок на сервері та допомогу гравцям.</li>
-      <li><strong>Anti_Witch</strong> - Модератор. Слідкує за чатом та дотриманням правил.</li>
+      <li><strong>LivaiuiCATS</strong> - Головний Адміністратор. Відповідає за порядок на сервері та допомогу гравцям.</li>
+      <li><strong>Anti_WitchFe㏔ѹ</strong> - Технічний Адміністратор. Вирішує технічні проблеми та займається плагінами.</li>
+      <li><strong>Strak_228CODE</strong> - Адміністратор.</li>
+      <li><strong>Nekislaw_UA</strong> - Головний Адміністратор.</li>
       <li>Інші члени команди - скоро додамо! 😉</li>
     </ul>
   </section>
@@ -428,10 +540,540 @@
       </div>
     </div>
   </section>
+
+  <section id="auth-emulation">
+    <h2>🔑 Емуляція Реєстрації/Входу 🔑</h2>
+    <p>Це лише демонстрація функціоналу. Справжня реєстрація вимагає серверної частини!</p>
+
+    <div class="card-grid">
+      <div class="card">
+        <h3>Зареєструватися</h3>
+        <input type="text" id="regUsername" placeholder="Ім'я користувача">
+        <input type="password" id="regPassword" placeholder="Пароль">
+        <button onclick="emulateRegister()">Зареєструватися</button>
+        <p id="regMessage"></p>
+      </div>
+
+      <div class="card">
+        <h3>Увійти</h3>
+        <input type="text" id="loginUsername" placeholder="Ім'я користувача">
+        <input type="password" id="loginPassword" placeholder="Пароль">
+        <button onclick="emulateLogin()">Увійти</button>
+        <p id="loginMessage"></p>
+        <p id="loggedInUser">Ви не увійшли.</p>
+        <button onclick="emulateLogout()" style="display: none;" id="logoutButton">Вийти</button>
+      </div>
+    </div>
+  </section>
+
+  <section id="announcements">
+    <h2>📢 Канал Оголошень LEGION UA 📢</h2>
+    <p>Тут ви знайдете всі важливі новини та оновлення від адміністрації сервера:</p>
+
+    <div class="announcement-post">
+      <div class="announcement-header">
+        <span class="author">【ТА】Anti_WitchFe㏔ѹ</span>
+        <span class="date">16 червня 2025 р. 22:48</span>
+      </div>
+      <div class="announcement-content">
+        <p>Дорогі друзі,</p>
+        <p>У зв'язку з тим що дуже багато стали використовувати пекло для бізнес плану я вирішив трошки нерфанути продажу золота.Тож</p>
+        <p>Ціна : 350 -> 250 карбованців</p>
+        <p>Ліміт на продажу: 128 -> 96</p>
+      </div>
+    </div>
+
+    <div class="announcement-post">
+      <div class="announcement-header">
+        <span class="author">【ТА】Anti_WitchFe㏔ѹ</span>
+        <span class="date">16 червня 2025 р. 17:08</span>
+      </div>
+      <div class="announcement-content">
+        <p>Сервер запущено, тепер ви можете ламати у світі та ставити машини. 🎉</p>
+      </div>
+    </div>
+
+    <div class="announcement-post">
+      <div class="announcement-header">
+        <span class="author">【ТА】Anti_WitchFe㏔ѹ</span>
+        <span class="date">16 червня 2025 р. 17:04</span>
+      </div>
+      <div class="announcement-content">
+        <p>Дорогі гравці, у мене є для вас хороші новини,</p>
+        <p>Всі міста були повернуті до моменту тех.робот,</p>
+        <p>Тобто весь прогрес міст станом на 16.06.25 14:04:55,</p>
+        <p>Протягом 5 хвилин буде запущено сервер повністю (якщо не буде багів).</p>
+      </div>
+    </div>
+
+    <div class="announcement-post">
+      <div class="announcement-header">
+        <span class="author">【ТА】Anti_WitchFe㏔ѹ</span>
+        <span class="date">16 червня 2025 р. 16:36</span>
+      </div>
+      <div class="announcement-content">
+        <p>Дорогі гравці,</p>
+        <p>Технічні роботи підходять до кінця, залишилось повернути пару речей на свої місця і сервер буде знову працювати.</p>
+      </div>
+    </div>
+
+    <div class="announcement-post">
+      <div class="announcement-header">
+        <span class="author">【ГА】Nekislaw_UA</span>
+        <span class="date">16 червня 2025 р. 16:00</span>
+      </div>
+      <div class="announcement-content">
+        <p>Хм…</p>
+        <div class="spoiler-box">Спойлер з зображенням</div>
+      </div>
+    </div>
+
+    <div class="announcement-post">
+      <div class="announcement-header">
+        <span class="author">【В】livaiuiCATS</span>
+        <span class="date">16 червня 2025 р. 14:56</span>
+      </div>
+      <div class="announcement-content">
+        <p>Після тех перерви буде пару сюрпризів. 🎉</p>
+      </div>
+    </div>
+
+    <div class="announcement-post">
+      <div class="announcement-header">
+        <span class="author">【ТА】Anti_WitchFe㏔ѹ</span>
+        <span class="date">16 червня 2025 р. 14:01</span>
+      </div>
+      <div class="announcement-content">
+        <p>Дорогі гравці, пробачте, але я змушений зробити міні тех перерву, щоб виправити всі баги.</p>
+      </div>
+    </div>
+
+    <div class="announcement-post">
+      <div class="announcement-header">
+        <span class="author">【ГА】Nekislaw_UA</span>
+        <span class="date">15 червня 2025 р. 22:07</span>
+      </div>
+      <div class="announcement-content">
+        <p>Податок на продаж і купівлю товарів на аукціоні прибрано. ✅</p>
+      </div>
+    </div>
+
+    <div class="announcement-post">
+      <div class="announcement-header">
+        <span class="author">【В】livaiuiCATS</span>
+        <span class="date">15 червня 2025 р. 18:41</span>
+      </div>
+      <div class="announcement-content">
+        <p>Так як багато хто скаржиться що гроші дуже важко добувати, у мене таке питання:</p>
+        <p>Чи збільшувати ціни на продаж ресурсів у торговців?</p>
+        <div class="poll-result">Опитування: 13 голосів за, 2 голоси проти.</div>
+      </div>
+    </div>
+
+    <div class="announcement-post">
+      <div class="announcement-header">
+        <span class="author">【В】livaiuiCATS</span>
+        <span class="date">15 червня 2025 р. 17:25</span>
+      </div>
+      <div class="announcement-content">
+        <p>Рестарт проведено, Приємної гри. 🔄</p>
+      </div>
+    </div>
+
+    <div class="announcement-post">
+      <div class="announcement-header">
+        <span class="author">【В】livaiuiCATS</span>
+        <span class="date">15 червня 2025 р. 15:01</span>
+      </div>
+      <div class="announcement-content">
+        <p>Ахахахаха ми їх уже по онлайну обігнали 😂</p>
+      </div>
+    </div>
+
+    <div class="announcement-post">
+      <div class="announcement-header">
+        <span class="author">【ТА】Anti_WitchFe㏔ѹ</span>
+        <span class="date">15 червня 2025 р. 11:07</span>
+      </div>
+      <div class="announcement-content">
+        <p>Дорогі друзі,</p>
+        <p>Хочу вас повідомити що тех роботи були закінчені, і ви можете зараз грати спокійно. 👍</p>
+      </div>
+    </div>
+
+    <div class="announcement-post">
+      <div class="announcement-header">
+        <span class="author">【ТА】Anti_WitchFe㏔ѹ</span>
+        <span class="date">15 червня 2025 р. 10:04</span>
+      </div>
+      <div class="announcement-content">
+        <p>Дорогі друзі,</p>
+        <p>Після тех. роботи буде додано плагін PlasmoVoice, для того щоб він у вас працював, раджу вам завантажити його аналог у вигляді моду.</p>
+        <p>P.S За податки не переживайте, я все там порішав.</p>
+        <p>Посилання: <a href="https://modrinth.com/plugin/plasmo-voice?version=1.21.4&loader=paper" target="_blank">Plasmo Voice - Minecraft Plugin</a></p>
+      </div>
+    </div>
+
+    <div class="announcement-post">
+      <div class="announcement-header">
+        <span class="author">【Х】Strak_228CODE</span>
+        <span class="date">14 червня 2025 р. 23:35</span>
+      </div>
+      <div class="announcement-content">
+        <p>Друзі, мабуть в мене немає на це право, але створив спеціально для власні войси, в категорії "Приватні войси'' можете спілкуватися разом створювавши власні войси, і також ви можете керувати войсами! Усім надобраніч та тихого мирного неба над головою. 🎤</p>
+      </div>
+    </div>
+
+    <div class="announcement-post">
+      <div class="announcement-header">
+        <span class="author">【В】livaiuiCATS</span>
+        <span class="date">14 червня 2025 р. 22:56</span>
+      </div>
+      <div class="announcement-content">
+        <p>Точніше, можете це рахувати як тимчасові тех роботи, зранку постараємося зробити сервак. 🚧</p>
+      </div>
+    </div>
+
+    <div class="announcement-post">
+      <div class="announcement-header">
+        <span class="author">【ТА】Anti_WitchFe㏔ѹ</span>
+        <span class="date">14 червня 2025 р. 21:55</span>
+      </div>
+      <div class="announcement-content">
+        <p>Дорогі друзі,</p>
+        <p>У мене буде маленьке прохання, всі хто зіткнувся з якимись багами, прошу напишіть мені в лс, щоб я знав що мені треба пофіксити. 🐞</p>
+      </div>
+    </div>
+
+    <div class="announcement-post">
+      <div class="announcement-header">
+        <span class="author">【В】livaiuiCATS</span>
+        <span class="date">14 червня 2025 р. 21:21</span>
+      </div>
+      <div class="announcement-content">
+        <p>Я дуже вибачаюся, але сервак пішов по пізді, завтра постараємося відновити нормальну роботу сервера, мені дуже шкода, але в мене настрій просто пішов в пізду і ось така от діч. 😞</p>
+      </div>
+    </div>
+
+    <div class="announcement-post">
+      <div class="announcement-header">
+        <span class="author">【В】livaiuiCATS</span>
+        <span class="date">14 червня 2025 р. 20:31</span>
+      </div>
+      <div class="announcement-content">
+        <h3>--- СЕРВЕР “LEGION UA” ВІДКРИВАЄТЬСЯ ПРЯМО ЗАРАЗ! ---</h3>
+        <p>Заходь у гру — ми офіційно стартували!</p>
+        <p>Після довгої підготовки, доопрацювань і вашого терпіння — "LEGION UA" вже відкрито!</p>
+        <p>Починай свій шлях, шукай союзників, створюй поселення, йди у політику чи готуйся до війни — боротьба починається просто зараз! IP та Dynmap — <a href="http://fin1.mineconnect.xyz:25953/" target="_blank">legionua.minecraftjoin.xyz</a></p>
+        <p>Не зволікай — перші гравці вже в грі!</p>
+        <p>З повагою, Адміністрація LEGION UA</p>
+        <p>RTP - ./rtp <br>Кіти доступні.</p>
+        <div class="poll-result">Опитування "Шо мені робить": Релізать серв (63%), Депнуть в казік (37%). Завершено.</div>
+      </div>
+    </div>
+
+    <div class="announcement-post">
+      <div class="announcement-header">
+        <span class="author">【ТА】Anti_WitchFe㏔ѹ</span>
+        <span class="date">14 червня 2025 р. 19:59</span>
+      </div>
+      <div class="announcement-content">
+        <p>Шо мені робить</p>
+        <p>Релізать серв</p>
+        <p>Не релізать</p>
+        <p>Депнуть в казік</p>
+        <div class="poll-result">Опитування завершено.</div>
+      </div>
+    </div>
+
+    <div class="announcement-post">
+      <div class="announcement-header">
+        <span class="author">【В】livaiuiCATS</span>
+        <span class="date">14 червня 2025 р. 19:58</span>
+      </div>
+      <div class="announcement-content">
+        <p>В компенсацію за багато переносів, можна буде брати усі ./kit зі старту!! (без кд у тиждень) 🎉</p>
+      </div>
+    </div>
+
+    <div class="announcement-post">
+      <div class="announcement-header">
+        <span class="author">【В】livaiuiCATS</span>
+        <span class="date">14 червня 2025 р. 19:31</span>
+      </div>
+      <div class="announcement-content">
+        <p>Я вибачаюся, але ми вимушені перенести реліз на 20:00, сорян великий, але ми не вспіваємо, ще треба оформити ртп і надіюсь що ми за 30 хвилин, дякую за ваше терпіння і ще раз вибачаюсь. 😫</p>
+      </div>
+    </div>
+
+    <div class="announcement-post">
+      <div class="announcement-header">
+        <span class="author">【В】livaiuiCATS</span>
+        <span class="date">14 червня 2025 р. 17:36</span>
+      </div>
+      <div class="announcement-content">
+        <div class="spoiler-box">Спойлер з зображенням</div>
+      </div>
+    </div>
+
+    <div class="announcement-post">
+      <div class="announcement-header">
+        <span class="author">【ТА】Anti_WitchFe㏔ѹ</span>
+        <span class="date">14 червня 2025 р. 17:31</span>
+      </div>
+      <div class="announcement-content">
+        <div class="spoiler-box">Спойлер з зображенням</div>
+      </div>
+    </div>
+
+    <div class="announcement-post">
+      <div class="announcement-header">
+        <span class="author">【ТА】Anti_WitchFe㏔ѹ</span>
+        <span class="date">14 червня 2025 р. 16:48</span>
+      </div>
+      <div class="announcement-content">
+        <p>Ось вам спойлери топів,</p>
+        <p>P.S не переживайте, адміни не будуть відображатись в топах.</p>
+        <div class="spoiler-box">Спойлер з зображенням 1</div>
+        <div class="spoiler-box">Спойлер з зображенням 2</div>
+        <div class="spoiler-box">Спойлер з зображенням 3</div>
+        <div class="spoiler-box">Спойлер з зображенням 4</div>
+      </div>
+    </div>
+
+    <div class="announcement-post">
+      <div class="announcement-header">
+        <span class="author">【ТА】Anti_WitchFe㏔ѹ</span>
+        <span class="date">14 червня 2025 р. 16:37</span>
+      </div>
+      <div class="announcement-content">
+        <p>Прошу вибачити нас, але реліз затримається на 1.5 години, для того щоб на 100% ви змогли зайти та нормально грати.</p>
+      </div>
+    </div>
+
+    <div class="announcement-post">
+      <div class="announcement-header">
+        <span class="author">【ТА】Anti_WitchFe㏔ѹ</span>
+        <span class="date">14 червня 2025 р. 15:47</span>
+      </div>
+      <div class="announcement-content">
+        <p>Реліз відбудеться 3 дні тому.</p>
+        <p>Дата і час: субота, 14 червня 2025 р. 19:30.</p>
+      </div>
+    </div>
+
+    <div class="announcement-post">
+      <div class="announcement-header">
+        <span class="author">【ТА】Anti_WitchFe㏔ѹ</span>
+        <span class="date">13 червня 2025 р. 17:51</span>
+      </div>
+      <div class="announcement-content">
+        <p>31 34 2E 30 36 2E 32 35 20 31 38 3A 30 30</p>
+      </div>
+    </div>
+
+    <div class="announcement-post">
+      <div class="announcement-header">
+        <span class="author">【ТА】Anti_WitchFe㏔ѹ</span>
+        <span class="date">13 червня 2025 р. 17:45</span>
+      </div>
+      <div class="announcement-content">
+        <div class="spoiler-box">Спойлер з зображенням</div>
+      </div>
+    </div>
+
+    <div class="announcement-post">
+      <div class="announcement-header">
+        <span class="author">【В】livaiuiCATS</span>
+        <span class="date">13 червня 2025 р. 14:02</span>
+      </div>
+      <div class="announcement-content">
+        <div class="spoiler-box">Спойлер з зображенням</div>
+      </div>
+    </div>
+
+    <div class="announcement-post">
+      <div class="announcement-header">
+        <span class="author">【ТА】Anti_WitchFe㏔ѹ</span>
+        <span class="date">12 червня 2025 р. 14:59</span>
+      </div>
+      <div class="announcement-content">
+        <p>Дорогі друзі, вирішили додати в діскорді канал <a href="https://discord.gg/your-faq-channel" target="_blank">『❓』faq</a>, де ви можете ділитися своїми порадами.</p>
+        <p>Міні прохання, не пишіть туди якусь херню.</p>
+      </div>
+    </div>
+
+    <div class="announcement-post">
+      <div class="announcement-header">
+        <span class="author">【ТА】Anti_WitchFe㏔ѹ</span>
+        <span class="date">11 червня 2025 р. 21:14</span>
+      </div>
+      <div class="announcement-content">
+        <p>Дорогі друзі,</p>
+        <p>Щоб довести що ми не ліниві сракі, і нічого не робимо для скорішого релізу сервера, ми вирішили вам продемонструвати 1 спойлер із того що вас чекає.</p>
+        <div class="spoiler-box">Спойлер з зображенням</div>
+      </div>
+    </div>
+
+    <div class="announcement-post">
+      <div class="announcement-header">
+        <span class="author">【В】livaiuiCATS</span>
+        <span class="date">11 червня 2025 р. 13:54</span>
+      </div>
+      <div class="announcement-content">
+        <p>А також, хотів би запитати у всіх, чи хотіли ви би бачити цю ідею в реалізації? Футбольчик ⚽</p>
+        <div class="poll-result">Опитування: 7 голосів за, 5 голосів проти.</div>
+      </div>
+    </div>
+
+    <div class="announcement-post">
+      <div class="announcement-header">
+        <span class="author">【В】livaiuiCATS</span>
+        <span class="date">11 червня 2025 р. 13:18</span>
+      </div>
+      <div class="announcement-content">
+        <h3>ОНОВЛЕННЯ: НОВА ДАТА ВІДКРИТТЯ СЕРВЕРА “LEGION UA” — 14 ЧЕРВНЯ (СУБОТА)</h3>
+        <p>Привіт, спільното!</p>
+        <p>Маємо важливе оновлення: ми прийняли рішення перенести відкриття сервера “LEGION UA” на суботу, 14 червня.</p>
+        <p>Це потрібно для фінального доопрацювання важливих механік, оптимізації карти та перевірки стабільності — хочемо, щоб старт був максимально якісним і без критичних багів. Що залишиться без змін:</p>
+        <ul>
+          <li>Унікальна мапа України</li>
+          <li>Система Towny, політика та війни</li>
+          <li>Ігрові механіки</li>
+          <li>Підтримка й розвиток після запуску</li>
+        </ul>
+        <p>Ми активно працюємо, аби 14 червня ви отримали стабільний, цікавий ігровий досвід, який дійсно вартий очікування.</p>
+        <p>Дякуємо за розуміння та терпіння!</p>
+        <p>Слідкуйте за оновленнями — скоро покажемо ще більше контенту з гри.</p>
+        <p>З повагою, Адміністрація LEGION UA.</p>
+      </div>
+    </div>
+
+    <div class="announcement-post">
+      <div class="announcement-header">
+        <span class="author">【В】livaiuiCATS</span>
+        <span class="date">9 червня 2025 р. 18:52</span>
+      </div>
+      <div class="announcement-content">
+        <p>Приношу вибачення, але замість Релізу буде бета-тест на провірку багів. (Можливо) (змінено) 😥</p>
+      </div>
+    </div>
+
+    <div class="announcement-post">
+      <div class="announcement-header">
+        <span class="author">【В】livaiuiCATS</span>
+        <span class="date">7 червня 2025 р. 21:57</span>
+      </div>
+      <div class="announcement-content">
+        <h3>ОФІЦІЙНИЙ АНОНС ВІДКРИТТЯ СЕРВЕРА "LEGION UA" — 10 ЧЕРВНЯ! 🎉</h3>
+        <p>Привіт, спільното!</p>
+        <p>Ми з радістю оголошуємо дату відкриття нашого нового Minecraft сервера LEGION UA — 10 червня 2025 року.</p>
+        <p>Це військово-політичний сервер з картою України, де ви зможете створювати власні держави, будувати союзи, воювати, займатися дипломатією та впливати на розвиток подій у грі. Що вас чекає на старті:</p>
+        <ul>
+          <li>Унікальна мапа Східної Європи</li>
+          <li>Система Towny та захоплення територій</li>
+          <li>Військові та політичні механіки</li>
+          <li>Рольова складова і PvP-баланс</li>
+          <li>Українська атмосфера й активна спільнота</li>
+        </ul>
+        <p>Ми не зупиняємось на старті — після відкриття на вас чекають регулярні оновлення, івенти, нові механіки, економіка, вибори та ще більше можливостей для гри. Слідкуйте за нашим Discord — найближчим часом з’явиться більше інформації про вайп, правила та нові механіки. До зустрічі на LEGION UA — чекаємо тебе у першому вайпі, та народженні сервера!</p>
+        <p>З повагою, Адміністрація LEGION UA</p>
+        <p>Посилання на YouTube: <a href="http://youtube.com/post/UgkxTCl8bV4Do-l8Ao8w_A9c3ROAWrELhkI4?si=IEuJgd5IBMUJKln3" target="_blank">Post from LEGION UA</a></p>
+      </div>
+    </div>
+
+    <div class="announcement-post">
+      <div class="announcement-header">
+        <span class="author">【В】livaiuiCATS</span>
+        <span class="date">1 червня 2025 р. 21:02</span>
+      </div>
+      <div class="announcement-content">
+        <p>Посилання на канал: <a href="https://discord.gg/your-ideas-channel" target="_blank">『💡』ідеї</a></p>
+      </div>
+    </div>
+
+    <div class="announcement-post">
+      <div class="announcement-header">
+        <span class="author">【В】livaiuiCATS</span>
+        <span class="date">1 червня 2025 р. 20:04</span>
+      </div>
+      <div class="announcement-content">
+        <p>Які б механіки ви хотіли би бачити на сервері? Попрошу накинути пару ідей у зону механік, якщо в когось є кайфова ідея то кидайте я вислухаю все.</p>
+      </div>
+    </div>
+
+    <div class="announcement-post">
+      <div class="announcement-header">
+        <span class="author">【ГА】Nekislaw_UA</span>
+        <span class="date">1 червня 2025 р. 7:24</span>
+      </div>
+      <div class="announcement-content">
+        <p>Вітаю всіх з першим днем літа, народе! ☀️</p>
+      </div>
+    </div>
+
+    <div class="announcement-post">
+      <div class="announcement-header">
+        <span class="author">【В】livaiuiCATS</span>
+        <span class="date">31 травня 2025 р. 21:36</span>
+      </div>
+      <div class="announcement-content">
+        <p>Сервер на розробці, тому про айпі можете не питати. Реліз планується на Сьоме Червня, дякую за увагу. ⏳</p>
+      </div>
+    </div>
+
+    <div class="announcement-post">
+      <div class="announcement-header">
+        <span class="author">【Х】Strak_228CODE</span>
+        <span class="date">28 травня 2025 р. 23:32</span>
+      </div>
+      <div class="announcement-content">
+        <p>@everyone галасуєм дєвкі</p>
+        <div class="poll-result">Опитування "де створюємо соц сторінку нашу?": і то і то (83%), тікток (17%), ютуб (0%). Опитування завершено.</div>
+      </div>
+    </div>
+
+    <div class="announcement-post">
+      <div class="announcement-header">
+        <span class="author">【Х】Strak_228CODE</span>
+        <span class="date">28 травня 2025 р. 22:32</span>
+      </div>
+      <div class="announcement-content">
+        <p>де створюємо соц сторінку нашу?</p>
+        <ul>
+          <li>тікток</li>
+          <li>ютуб</li>
+          <li>і то і то</li>
+        </ul>
+      </div>
+    </div>
+
+    <div class="announcement-post">
+      <div class="announcement-header">
+        <span class="author">【Х】Strak_228CODE</span>
+        <span class="date">28 травня 2025 р. 18:03</span>
+      </div>
+      <div class="announcement-content">
+        <p>почалась стадія розробки. 🚀</p>
+      </div>
+    </div>
+
+    <div class="announcement-post">
+      <div class="announcement-header">
+        <span class="author">Чат 『🗞』новини</span>
+        <span class="date">28 травня 2025 р.</span>
+      </div>
+      <div class="announcement-content">
+        <p>Це початок каналу #『🗞』новини.</p>
+      </div>
+    </div>
+
+    </section>
+
 </main>
 
 <footer>
-  <p>&copy; 2025 LEGION UA. Всі права захищені. Створено з ❤️ в Україні. 🇺🇦</p>
+  <p>© 2025 LEGION UA. Всі права захищені. Створено з ❤️ в Україні. 🇺🇦</p>
   <p>Розроблено Тарасом за підтримки Gemini.</p>
 </footer>
 
@@ -440,11 +1082,9 @@
     const ipSpan = document.querySelector('.ip-address span');
     const ipText = ipSpan.textContent;
 
-    // Використання Clipboard API для копіювання
     navigator.clipboard.writeText(ipText).then(() => {
       alert('IP-адресу скопійовано: ' + ipText + ' 🎉');
     }).catch(err => {
-      // Якщо Clipboard API не підтримується або є помилка, використовуємо старий метод
       const textArea = document.createElement("textarea");
       textArea.value = ipText;
       document.body.appendChild(textArea);
@@ -455,20 +1095,108 @@
     });
   }
 
-  // Анімація для секцій при скролінгу
+  function handleIPKeyPress(event) {
+    if (event.key === 'Enter' || event.keyCode === 13) {
+      copyIP();
+    }
+  }
+
+  // Функція для емуляції реєстрації
+  function emulateRegister() {
+    const usernameInput = document.getElementById('regUsername');
+    const passwordInput = document.getElementById('regPassword');
+    const messageDisplay = document.getElementById('regMessage');
+
+    const username = usernameInput.value.trim();
+    const password = passwordInput.value.trim();
+
+    if (username.length < 3 || password.length < 3) {
+      messageDisplay.textContent = 'Ім\'я користувача та пароль повинні бути щонайменше 3 символи! 🙁';
+      messageDisplay.className = 'error';
+      return;
+    }
+
+    const storedUsers = JSON.parse(localStorage.getItem('emulatedUsers')) || {};
+
+    if (storedUsers[username]) {
+      messageDisplay.textContent = 'Користувач з таким ім\'ям вже існує! 😟';
+      messageDisplay.className = 'error';
+      return;
+    }
+
+    storedUsers[username] = password;
+    localStorage.setItem('emulatedUsers', JSON.stringify(storedUsers));
+
+    messageDisplay.textContent = `Користувач "${username}" успішно зареєстрований! 🎉 Тепер ви можете увійти.`;
+    messageDisplay.className = 'success';
+    usernameInput.value = '';
+    passwordInput.value = '';
+  }
+
+  // Функція для емуляції входу
+  function emulateLogin() {
+    const usernameInput = document.getElementById('loginUsername');
+    const passwordInput = document.getElementById('loginPassword');
+    const messageDisplay = document.getElementById('loginMessage');
+    const loggedInUserDisplay = document.getElementById('loggedInUser');
+    const logoutBtn = document.getElementById('logoutButton');
+
+    const username = usernameInput.value.trim();
+    const password = passwordInput.value.trim();
+
+    const storedUsers = JSON.parse(localStorage.getItem('emulatedUsers')) || {};
+
+    if (storedUsers[username] && storedUsers[username] === password) {
+      localStorage.setItem('loggedInUserToken', username);
+      loggedInUserDisplay.textContent = `Вітаємо, ${username}! Ви увійшли. 👋`;
+      logoutBtn.style.display = 'inline-block';
+      messageDisplay.textContent = '';
+      messageDisplay.className = '';
+      usernameInput.value = '';
+      passwordInput.value = '';
+    } else {
+      messageDisplay.textContent = 'Неправильне ім\'я користувача або пароль! 😞';
+      messageDisplay.className = 'error';
+      loggedInUserDisplay.textContent = 'Ви не увійшли.';
+      logoutBtn.style.display = 'none';
+    }
+  }
+
+  // Функція для емуляції виходу
+  function emulateLogout() {
+    localStorage.removeItem('loggedInUserToken');
+    document.getElementById('loggedInUser').textContent = 'Ви вийшли з системи. До зустрічі! 👋';
+    document.getElementById('logoutButton').style.display = 'none';
+    document.getElementById('loginMessage').textContent = '';
+    document.getElementById('loginMessage').className = '';
+    document.getElementById('regMessage').textContent = '';
+    document.getElementById('regMessage').className = '';
+  }
+
+  // Перевірка при завантаженні сторінки, чи вже користувач увійшов
   document.addEventListener("DOMContentLoaded", function() {
+    const loggedInUserToken = localStorage.getItem('loggedInUserToken');
+    if (loggedInUserToken) {
+      document.getElementById('loggedInUser').textContent = `Вітаємо, ${loggedInUserToken}! Ви вже увійшли. 👋`;
+      document.getElementById('logoutButton').style.display = 'inline-block';
+    } else {
+      document.getElementById('loggedInUser').textContent = 'Ви не увійшли.';
+      document.getElementById('logoutButton').style.display = 'none';
+    }
+
+    // Анімація для секцій при скролінгу
     const sections = document.querySelectorAll("section");
     const observerOptions = {
       root: null, // viewport
       rootMargin: "0px",
-      threshold: 0.1 // Секція стає видимою, коли 10% її вмісту входить у viewport
+      threshold: 0.1
     };
 
     const observer = new IntersectionObserver((entries, observer) => {
       entries.forEach(entry => {
         if (entry.isIntersecting) {
           entry.target.style.animationPlayState = 'running';
-          observer.unobserve(entry.target); // Зупинити спостереження після анімації
+          observer.unobserve(entry.target);
         }
       });
     }, observerOptions);
